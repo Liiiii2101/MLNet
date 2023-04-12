@@ -4,7 +4,8 @@ An Automated Deep Learning Pipeline for EMVI and Response Prediction of Rectal C
 Paper Link: to be updated
 
 
-![Graph Abstract:](https://github.com/Liiiii2101/MLNet/blob/main/graph_abstract.png)
+<img src="https://github.com/Liiiii2101/MLNet/blob/main/graph_abstract.png" width="200" />
+
 
 
 # Installation
