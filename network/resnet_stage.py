@@ -354,25 +354,25 @@ class ResNet(nn.Module):
 
         #self.sp1 = ChannelSELayer3D(num_channels=self.in_planes+2)
         self.layer1 = self._make_layer(block, block_inplanes[0], layers[0],
-                                       shortcut_type,concat=False)
+                                       shortcut_type,concat=True)
         #self.sp2 = ChannelSELayer3D(num_channels=self.in_planes+2)
         self.layer2 = self._make_layer(block,
                                        block_inplanes[1],
                                        layers[1],
                                        shortcut_type,
-                                       stride=2, concat=3)
+                                       stride=2, concat=True)
         #self.sp3 = ChannelSELayer3D(num_channels=self.in_planes+2)
         self.layer3 = self._make_layer(block,
                                        block_inplanes[2],
                                        layers[2],
                                        shortcut_type,
-                                       stride=2,concat=False)
+                                       stride=2,concat=True)
         #self.sp4 = ChannelSELayer3D(num_channels=self.in_planes+2)
         self.layer4 = self._make_layer(block,
                                        block_inplanes[3],
                                        layers[3],
                                        shortcut_type,
-                                       stride=2, concat=False)
+                                       stride=2, concat=True)
 
         self.avgpool = nn.AdaptiveAvgPool3d((1, 1, 1))
 
@@ -450,40 +450,31 @@ class ResNet(nn.Module):
         return nn.Sequential(*layers)
 
     def forward(self,input,clinical=None):#x, x1,x2,x3,x4):
-        #x = torch.cat((x,x4),1)
+
         x,x1,x2,x3,x4 = input
         x = self.conv1(x)
         x = self.bn1(x)
         x = self.relu(x)
-        #print('layer1',torch.max(x),torch.min(x))
-        #x1 = self.relu(x1)
-        #print('layer1',torch.max(x),torch.min(x))
-        #print(x.shape,x1.shape)
-        #x = torch.cat((x,x1),1)
-        
 
+      
+        x = torch.cat((x,x1),1)
+        
         if not self.no_max_pool:
             x = self.maxpool(x)
         #x = self.sp1(x)
 
         x = self.layer1(x)
-        #print('layer2',torch.max(x),torch.min(x))
-        #x2 = self.relu(x2)
+
         x = torch.cat((x, x2),1)
         
-        #x = self.sp2(x)
-        #x = torch.add(x,x2[:,:1,:,:,:],alpha=0.3)
+
         x = self.layer2(x)
-        #print('layer3',torch.max(x),torch.min(x))
-        #x3 = self.relu(x3)
-        #x  =  torch.cat((x, x3),1)
+
+        x  =  torch.cat((x, x3),1)
         #x = self.sp3(x)
-        #x = torch.add(x,x3[:,:1,:,:,:],alpha=0.3)
+
         x = self.layer3(x)
-        #print('layer4',torch.max(x),torch.min(x))
-        #x = torch.add(x,x4[:,:1,:,:,:],alpha=0.3)
-        #x4 = self.relu(x4)
-        #x  =  torch.cat((x, x4),1)
+        x  =  torch.cat((x, x4),1)
         #x = self.sp4(x)
         x = self.layer4(x)
         
@@ -491,11 +482,9 @@ class ResNet(nn.Module):
         
 
         x = self.avgpool(x)
-        #print(x.shape)
-        #if clinical:
-        #    x = torch.cat((x,clinical),1)
+        
         x = x.view(x.size(0), -1)
-        #print(x.shape)
+
         if clinical:
             x = torch.cat((x,clinical),1)
         x = self.fc(x)
@@ -507,7 +496,7 @@ def generate_model(model_depth, **kwargs):
     assert model_depth in [10, 18, 34, 50, 101, 152, 200]
 
     if model_depth == 10:
-        model = ResNet(Bottleneck, [2, 1, 1, 1], get_inplanes(), **kwargs)
+        model = ResNet(BasicBlock [1, 1, 1, 1], get_inplanes(), **kwargs)
     elif model_depth == 18:
         model = ResNet(Bottleneck, [2, 2, 2, 2], get_inplanes(), **kwargs)
     elif model_depth == 34:

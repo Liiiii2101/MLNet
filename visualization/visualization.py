@@ -97,12 +97,11 @@ for i in num_dict.keys():
         attention = np.squeeze(np.load(f'/mnt/data/groups/beets-tan/l.cai/attention/gbp/{mri}/{target}/{mri}_{target}{j}/att{str(int(i)-412)}.npy'))
         plt.subplot(4,7,Count)
         
-        #plt.imshow(image[num_dict[i],20:172,30:194],cmap='gray')
-        #print(np.min(attention[num_dict[i],20:172,30:194]),np.max(attention[num_dict[i],20:172,30:194]))
+        
         att_draw =  attention[num_dict[i],20:172,30:194]
         att_draw = NormalizeData(att_draw)
-        #print(np.min(att_draw),np.max(att_draw))
-        plt.imshow(att_draw,cmap='seismic',alpha=1)#attention[num_dict[i],20:172,30:194],cmap='bwr',alpha=1)
+        
+        plt.imshow(att_draw,cmap='seismic',alpha=1)
         plt.axis('off')
         Count += 1
 

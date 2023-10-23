@@ -127,7 +127,7 @@ def draw_boxplot(data,name='4-Fold Dice',xlabel=['DWI','DWI+T2W'],ylabel='Dice')
 
 # the stars
     z, p = scipy.stats.mannwhitneyu(data[0], data[1])
-    p_value = p * 2
+
     s = stars(p)
     print('p value: ',p_value)
 
