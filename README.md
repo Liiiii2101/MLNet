@@ -28,9 +28,11 @@ Also, you can finetune hyperparameters in the config file
 
 
 Then you can Train with the following command:
-
+```bash
 CUDA_VISIBLE_DEVICES=0 python trainer.py --load_json config/nnunet.json 
+```
 
 TEST with:
-
+```bash
 CUDA_VISIBLE_DEVICES=0 python eval_test.py 
+```
