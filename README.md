@@ -27,5 +27,10 @@ Then, you need to have a csv file where you have your classficaton fold informat
 Also, you can finetune hyperparameters in the config file
 
 
+Then you can Train with the following command:
 
- 
+CUDA_VISIBLE_DEVICES=0 python trainer.py --load_json config/nnunet.json 
+
+TEST with:
+
+CUDA_VISIBLE_DEVICES=0 python eval_test.py 
