@@ -148,10 +148,7 @@ for ff in range(tot_folds):
             x3 = x3.to(device)
             x4 = x4.to(device)
 
-            #x = f.unsqueeze(0)
-            #x = x.to(device)
-            #l,p = model(x)
-            #l,p = model(x)
+
             input = [x,x1,x2,x3,x4]
             model_c.get_input(input)
             l = model_c(x)
@@ -163,25 +160,13 @@ for ff in range(tot_folds):
             'layer2.0': 'layer2'                
             }
 
-            ## This part is for saving midoutput
-            #mid_getter = MidGetter(model, return_layers=return_layers, keep_output=True)
-            #mid_outputs, model_output = mid_getter(x,x1,x2,x3,x4)
-            #print(mid_outputs['layer1'].shape, mid_outputs['layer2'].shape)
-            #layer1 = mid_outputs['layer1'].cpu().detach().numpy()
-            #layer2 = mid_outputs['layer2'].cpu().detach().numpy()
-            #np.save(f'mid_output/{str(n)}_1.npy',layer1)
-            #np.save(f'mid_output/{str(n)}_2.npy',layer2)
+
             attention = l[1].cpu().detach().numpy()
             np.save(f'saving/att{str(n)}.npy',attention)
             
           
 
-            # You can also pass aug_smooth=True and eigen_smooth=True, to apply smoothing.
-            #grayscale_cam = cam(input_tensor=(x,x1,x2,x3,x4), targets=targets)
 
-            # In this example grayscale_cam has only one image in the batch:
-            #grayscale_cam = grayscale_cam[0, :]
-            #print(grayscale_cam.shape)
         
             pred = p[0].detach().cpu().numpy().tolist()
             y_preds_total.append(pred)
@@ -191,13 +176,13 @@ for ff in range(tot_folds):
         arr = np.asarray(pp)
         for i in num_dict.keys():
             i = int(i)
-            print(i, arr[i-412],ll[i-412])
-        print(dict(zip(arr,ll)))
+            #print(i, arr[i-412],ll[i-412])
+        #print(dict(zip(arr,ll)))
         arr[arr>0.5] = 1
         arr[arr<0.5] = 0
        
-        print(np.sum(ll),len(ll))
-        print(roc_and_auc(np.asarray(pp),np.asarray(ll)),accuracy_score(arr,np.asarray(ll)))
+        #print(np.sum(ll),len(ll))
+        print('AUC: ',roc_and_auc(np.asarray(pp),np.asarray(ll)),accuracy_score(arr,np.asarray(ll)))
 
     y_labels_total = np.array(label_binarize(y_labels_total,classes=[0,1,2]))[:,:2]
     y_preds_total = np.array(y_preds_total)
@@ -229,7 +214,7 @@ for ff in range(tot_folds):
         fpr[i], tpr[i], _ = roc_curve(y_labels_total[:,i], y_preds_total[:,i])
 
         roc_auc[i] = auc(fpr[i], tpr[i])
-        print(roc_auc)
+        #print(roc_auc)
     
     fpr["micro"], tpr["micro"], _ = roc_curve(y_labels_total.ravel(), y_preds_total.ravel())
     roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])   
