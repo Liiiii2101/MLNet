@@ -1,5 +1,5 @@
 # MLNet
-An Automated Deep Learning Pipeline for EMVI and Response Prediction of Rectal Cancer using Baseline MRIs
+An Automated Deep Learning Pipeline for EMVI and Response Prediction of Rectal Cancer using Baseline MRI
 
 Paper Link: to be updated
 
@@ -31,7 +31,7 @@ Then you can Train with the following command:
 ```bash
 CUDA_VISIBLE_DEVICES=0 python trainer.py --load_json config/nnunet.json 
 ```
-
+# Evaluation
 TEST with:
 ```bash
 CUDA_VISIBLE_DEVICES=0 python eval_test.py 
