@@ -1,7 +1,7 @@
 # MLNet🔍
 An Automated Deep Learning Pipeline for EMVI and Response Prediction of Rectal Cancer Using Baseline MRI
 
-Paper Link: to be updated
+Paper Link: https://www.nature.com/articles/s41698-024-00516-x
 
 
 <img src="https://github.com/Liiiii2101/MLNet/blob/main/graphic_abstract.jpg" width="400" />
